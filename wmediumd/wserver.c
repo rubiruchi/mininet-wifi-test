@@ -33,14 +33,6 @@
 #include "wmediumd_dynamic.h"
 #include "wserver_messages.h"
 
-#define WSERVER_SECTOR_UPDATE_REQUEST_TYPE 23
-#define WSERVER_SECTOR_UPDATE_RESPONSE_TYPE 24
-#define WSERVER_MAXSECTOR_UPDATE_REQUEST_TYPE 25
-#define WSERVER_MAXSECTOR_UPDATE_RESPONSE_TYPE 26
-#define WSERVER_MAINDB_UPDATE_REQUEST_TYPE 27
-#define WSERVER_MAINDB_UPDATE_RESPONSE_TYPE 28
-#define WSERVER_SIDEDB_UPDATE_REQUEST_TYPE 29
-#define WSERVER_SIDEDB_UPDATE_RESPONSE_TYPE 30
 
 #define LOG_PREFIX "W_SRV: "
 
@@ -820,29 +812,30 @@ int receive_handle_request(struct request_ctx *ctx) {
 			return parse_recv_msg_rest_error(ctx->ctx, ret);
 		} else {
 			return handle_gaussian_random_update_request(ctx, &request);
-		} // --------------------------------------
-    } else if (recv_type == WSERVER_SECTOR_RANDOM_UPDATE_REQUEST_TYPE) {
+		}
+   // --------------------------------------
+    } else if (recv_type == WSERVER_SECTOR_UPDATE_REQUEST_TYPE) {
 	    sector_update_request request;
 	    if ((ret = wserver_recv_msg(ctx->sock_fd, &request, sector_update_request))) {
 			return parse_recv_msg_rest_error(ctx->ctx, ret);
 		} else {
 			return handle_sector_update_request(ctx, &request);
 		}
-    } else if (recv_type == WSERVER_MAXSECTOR_RANDOM_UPDATE_REQUEST_TYPE) {
+    } else if (recv_type == WSERVER_MAXSECTOR_UPDATE_REQUEST_TYPE) {
 	    max_sector_update_request request;
 	    if ((ret = wserver_recv_msg(ctx->sock_fd, &request, max_sector_update_request))) {
 			return parse_recv_msg_rest_error(ctx->ctx, ret);
 		} else {
 			return handle_max_sector_update_request(ctx, &request);
 	        }
-    } else if (recv_type == WSERVER_MAINDB_RANDOM_UPDATE_REQUEST_TYPE) {
+    } else if (recv_type == WSERVER_MAINDB_UPDATE_REQUEST_TYPE) {
 	    maindB_update_request request;
 	    if ((ret = wserver_recv_msg(ctx->sock_fd, &request, maindB_update_request))) {
 			return parse_recv_msg_rest_error(ctx->ctx, ret);
 		} else {
 			return handle_maindB_update_request(ctx, &request);
 		}
-    } else if (recv_type == WSERVER_SIDEDB_RANDOM_UPDATE_REQUEST_TYPE) {
+    } else if (recv_type == WSERVER_SIDEDB_UPDATE_REQUEST_TYPE) {
 	    sidedB_update_request request;
 	    if ((ret = wserver_recv_msg(ctx->sock_fd, &request, sidedB_update_request))) {
 			return parse_recv_msg_rest_error(ctx->ctx, ret);

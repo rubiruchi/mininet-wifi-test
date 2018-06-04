@@ -62,7 +62,39 @@ int send_txpower_update_request(int sock, const txpower_update_request *elem) {
 int send_txpower_update_response(int sock, const txpower_update_response *elem) {
     align_send_msg(sock, elem, txpower_update_response, WSERVER_TXPOWER_UPDATE_RESPONSE_TYPE)
 }
+//---------------------------
+int send_sector_update_request(int sock, const sector_update_request *elem) {
+    align_send_msg(sock, elem, sector_update_request, WSERVER_SECTOR_UPDATE_REQUEST_TYPE)
+}
 
+int send_sector_update_response(int sock, const sector_update_response *elem) {
+    align_send_msg(sock, elem, sector_update_response, WSERVER_SECTOR_UPDATE_RESPONSE_TYPE)
+}
+
+int send_max_sector_update_request(int sock, const max_sector_update_request *elem) {
+    align_send_msg(sock, elem, max_sector_update_request, WSERVER_MAXSECTOR_UPDATE_REQUEST_TYPE)
+}
+
+int send_max_sector_update_response(int sock, const max_sector_update_response *elem) {
+    align_send_msg(sock, elem, max_sector_update_response, WSERVER_MAXSECTOR_UPDATE_RESPONSE_TYPE)
+}
+
+int send_maindB_update_request(int sock, const maindB_update_request *elem) {
+    align_send_msg(sock, elem, maindB_update_request, WSERVER_MAINDB_UPDATE_REQUEST_TYPE)
+}
+
+int send_maindB_update_response(int sock, const maindB_update_response *elem) {
+    align_send_msg(sock, elem, maindB_update_response, WSERVER_MAINDB_UPDATE_RESPONSE_TYPE)
+}
+
+int send_sidedB_update_request(int sock, const sidedB_update_request *elem) {
+    align_send_msg(sock, elem, sidedB_update_request, WSERVER_SIDEDB_UPDATE_REQUEST_TYPE)
+}
+
+int send_sidedB_update_response(int sock, const sidedB_update_response *elem) {
+    align_send_msg(sock, elem, sidedB_update_response, WSERVER_SIDEDB_UPDATE_RESPONSE_TYPE)
+}
+//------------------------------------
 int send_gaussian_random_update_request(int sock, const gaussian_random_update_request *elem) {
     align_send_msg(sock, elem, gaussian_random_update_request, WSERVER_GAUSSIAN_RANDOM_UPDATE_REQUEST_TYPE)
 }
@@ -142,6 +174,40 @@ int recv_txpower_update_request(int sock, txpower_update_request *elem) {
 int recv_txpower_update_response(int sock, txpower_update_response *elem) {
     align_recv_msg(sock, elem, txpower_update_response, WSERVER_TXPOWER_UPDATE_RESPONSE_TYPE)
 }
+
+//---------------------------------------
+int recv_sector_update_request(int sock, sector_update_request *elem) {
+    align_recv_msg(sock, elem, sector_update_request, WSERVER_SECTOR_UPDATE_REQUEST_TYPE)
+}
+
+int recv_sector_update_response(int sock, sector_update_response *elem) {
+    align_recv_msg(sock, elem, sector_update_response, WSERVER_SECTOR_UPDATE_RESPONSE_TYPE)
+}
+
+int recv_max_sector_update_request(int sock, max_sector_update_request *elem) {
+    align_recv_msg(sock, elem, max_sector_update_request, WSERVER_MAXSECTOR_UPDATE_REQUEST_TYPE)
+}
+
+int recv_max_sector_update_response(int sock, max_sector_update_response *elem) {
+    align_recv_msg(sock, elem, max_sector_update_response, WSERVER_MAXSECTOR_UPDATE_RESPONSE_TYPE)
+}
+
+int recv_maindB_update_request(int sock, maindB_update_request *elem) {
+    align_recv_msg(sock, elem, maindB_update_request, WSERVER_MAINDB_UPDATE_REQUEST_TYPE)
+}
+
+int recv_maindB_update_response(int sock, maindB_update_response *elem) {
+    align_recv_msg(sock, elem, maindB_update_response, WSERVER_MAINDB_UPDATE_RESPONSE_TYPE)
+}
+
+int recv_sidedB_update_request(int sock, sidedB_update_request *elem) {
+    align_recv_msg(sock, elem, sidedB_update_request, WSERVER_SIDEDB_UPDATE_REQUEST_TYPE)
+}
+
+int recv_sidedB_update_response(int sock, sidedB_update_response *elem) {
+    align_recv_msg(sock, elem, sidedB_update_response, WSERVER_SIDEDB_UPDATE_RESPONSE_TYPE)
+}
+//----------------------------------------------
 
 int recv_gaussian_random_update_request(int sock, gaussian_random_update_request *elem) {
     align_recv_msg(sock, elem, gaussian_random_update_request, WSERVER_GAUSSIAN_RANDOM_UPDATE_REQUEST_TYPE)
@@ -242,6 +308,24 @@ ssize_t get_msg_size_by_type(int type) {
 			return sizeof(txpower_update_request);
 		case WSERVER_TXPOWER_UPDATE_RESPONSE_TYPE:
 			return sizeof(txpower_update_response);
+//------------------------
+		case WSERVER_SECTOR_UPDATE_REQUEST_TYPE:
+			return sizeof(sector_update_request);
+		case WSERVER_SECTOR_UPDATE_RESPONSE_TYPE:
+			return sizeof(sector_update_response);
+		case WSERVER_MAXSECTOR_UPDATE_REQUEST_TYPE:
+			return sizeof(max_sector_update_request);
+		case WSERVER_MAXSECTOR_UPDATE_RESPONSE_TYPE:
+			return sizeof(max_sector_update_response);
+		case WSERVER_MAINDB_UPDATE_REQUEST_TYPE:
+			return sizeof(maindB_update_request);
+		case WSERVER_MAINDB_UPDATE_RESPONSE_TYPE:
+			return sizeof(maindB_update_response);
+		case WSERVER_SIDEDB_UPDATE_REQUEST_TYPE:
+			return sizeof(sidedB_update_request);
+		case WSERVER_SIDEDB_UPDATE_RESPONSE_TYPE:
+			return sizeof(sidedB_update_response);
+//-----------------------
 		case WSERVER_GAIN_UPDATE_REQUEST_TYPE:
 			return sizeof(gain_update_request);
 		case WSERVER_GAIN_UPDATE_RESPONSE_TYPE:

@@ -62,6 +62,16 @@
 #define WSERVER_HEIGHT_UPDATE_RESPONSE_TYPE 20
 #define WSERVER_GAUSSIAN_RANDOM_UPDATE_REQUEST_TYPE 21
 #define WSERVER_GAUSSIAN_RANDOM_UPDATE_RESPONSE_TYPE 22
+//---------
+#define   WSERVER_SECTOR_UPDATE_REQUEST_TYPE = 23
+#define    WSERVER_SECTOR_UPDATE_RESPONSE_TYPE = 24
+#define    WSERVER_MAXSECTOR_UPDATE_REQUEST_TYPE = 25
+#define    WSERVER_MAXSECTOR_UPDATE_RESPONSE_TYPE = 26
+#define    WSERVER_MAINDB_UPDATE_REQUEST_TYPE = 27
+#define    WSERVER_MAINDB_UPDATE_RESPONSE_TYPE = 28
+#define    WSERVER_SIDEDB_UPDATE_REQUEST_TYPE = 29
+#define    WSERVER_SIDEDB_UPDATE_RESPONSE_TYPE = 30
+//---------
 
 #define SPECIFIC_MATRIX_MAX_SIZE_IDX (12)
 #define SPECIFIC_MATRIX_MAX_RATE_IDX (12)
@@ -124,6 +134,33 @@ typedef struct __packed {
     txpower_update_request request;
     u8 update_result;
 } txpower_update_response;
+
+//---------
+typedef struct __packed {
+    wserver_msg base;
+    sector_update_request request;
+    u8 update_result;
+} sector_update_response;
+
+typedef struct __packed {
+    wserver_msg base;
+    max_sector_update_request request;
+    u8 update_result;
+} max_sector_update_response;
+
+typedef struct __packed {
+    wserver_msg base;
+    maindB_update_request request;
+    u8 update_result;
+} maindB_update_response;
+
+typedef struct __packed {
+    wserver_msg base;
+    sidedB_update_request request;
+    u8 update_result;
+} sidedB_update_response;
+
+//-----------
 
 typedef struct __packed {
     wserver_msg base;
@@ -270,6 +307,24 @@ int send_txpower_update_request(int sock, const txpower_update_request *elem);
 
 int send_txpower_update_response(int sock, const txpower_update_response *elem);
 
+//----------------------------
+
+int send_sector_update_request(int sock, const sector_update_request *elem);
+
+int send_sector_update_response(int sock, const sector_update_response *elem);
+
+int send_max_sector_update_request(int sock, const max_sector_update_request *elem);
+
+int send_max_sector_update_response(int sock, const max_sector_update_response *elem);
+
+int send_maindB_update_request(int sock, const maindB_update_request *elem);
+
+int send_maindB_update_response(int sock, const maindB_update_response *elem);
+
+int send_sidedB_update_request(int sock, const sidedB_update_request *elem);
+
+int send_sidedB_update_response(int sock, const sidedB_update_response *elem);
+//------------------------------
 int send_gaussian_random_update_request(int sock, const gaussian_random_update_request *elem);
 
 int send_gaussian_random_update_response(int sock, const gaussian_random_update_response *elem);
@@ -313,6 +368,23 @@ int recv_position_update_response(int sock, position_update_response *elem);
 int recv_txpower_update_request(int sock, txpower_update_request *elem);
 
 int recv_txpower_update_response(int sock, txpower_update_response *elem);
+//----------------------------------
+int recv_sector_update_request(int sock, sector_update_request *elem);
+
+int recv_sector_update_response(int sock, sector_update_response *elem);
+
+int recv_max_sector_update_request(int sock, max_sector_update_request *elem);
+
+int recv_max_sector_update_response(int sock, max_sector_update_response *elem);
+
+int recv_maindB_update_request(int sock, maindB_update_request *elem);
+
+int recv_maindB_update_response(int sock, maindB_update_response *elem);
+
+int recv_sidedB_update_request(int sock, sidedB_update_request *elem);
+
+int recv_sidedB_update_response(int sock, sidedB_update_response *elem);
+//----------------------------------
 
 int recv_gaussian_random_update_request(int sock, gaussian_random_update_request *elem);
 

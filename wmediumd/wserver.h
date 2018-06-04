@@ -75,6 +75,12 @@ int handle_gaussian_random_update_request(struct request_ctx *ctx, const gaussia
  * @param request The received request
  */
 int handle_gain_update_request(struct request_ctx *ctx, const gain_update_request *request);
+//-------------
+int handle_sector_update_request(struct request_ctx *ctx, const sector_update_request *request);
+int handle_max_sector_update_request(struct request_ctx *ctx, const max_sector_update_request *request);
+int handle_maindB_update_request(struct request_ctx *ctx, const maindB_update_request *request);
+int handle_sidedB_update_request(struct request_ctx *ctx, const sidedB_update_request *request);
+//------------
 
 /**
  * Handle a errprob_update_request and pass it to wmediumd

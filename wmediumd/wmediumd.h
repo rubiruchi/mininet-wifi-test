@@ -150,6 +150,12 @@ struct station {
 	double freq;			/* frequency [Mhz] */
 	struct wqueue queues[IEEE80211_NUM_ACS];
 	struct list_head list;
+	//---------
+	int sector;
+	int max_sector;
+	int maindB;
+	int sidedB;
+	//----------
 };
 
 struct wmediumd {
@@ -173,12 +179,6 @@ struct wmediumd {
 	int per_matrix_signal_min;
 	int fading_coefficient;
 	int noise_threshold;
-	//---------
-	int sector;
-	int max_sector;
-	int maindB;
-	int sidedB;
-	//----------
 
 	struct nl_cb *cb;
 	int family_id;

@@ -104,11 +104,11 @@ static int calc_path_loss_free_space(void *model_param,
 	d = sqrt((src->x - dst->x) * (src->x - dst->x) +
 			 (src->y - dst->y) * (src->y - dst->y) +
 			 (src->z - dst->z) * (src->z - dst->z));
-	FILE *f;
-	f = fopen("mininet_wigig.log", "a+"); // a+ (create + append) option will allow appending which is useful in a log file
-	if (f == NULL) { /* Something is wrong   */}
-	fprintf(f, "sector : %d, max_sector : %d" , src->sector, src->max_sector);
-	f.close();
+	FILE *fi;
+	fi = fopen("mininet_wigig.log", "a+"); // a+ (create + append) option will allow appending which is useful in a log file
+	if (fi == NULL) { /* Something is wrong   */}
+	fprintf(fi, "sector : %d, max_sector : %d" , src->sector, src->max_sector);
+	fi.close();
 
 	/*
 	 * Calculate PL0 with Free-space path loss in decibels

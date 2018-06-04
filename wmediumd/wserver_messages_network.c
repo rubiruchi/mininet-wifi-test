@@ -115,6 +115,50 @@ void hton_txpower_update_response(txpower_update_response *elem) {
     hton_txpower_update_request(&elem->request);
 }
 
+//----------------------------------------------------------------
+
+void hton_sector_update_request(sector_update_request *elem) {
+    hton_base(&elem->base);
+    htoni_wrapper((int32_t*)&elem->sector_);
+}
+
+void hton_sector_update_response(sector_update_response *elem) {
+    hton_base(&elem->base);
+    hton_sector_update_request(&elem->request);
+}
+
+void hton_max_sector_update_request(max_sector_update_request *elem) {
+    hton_base(&elem->base);
+    htoni_wrapper((int32_t*)&elem->max_sector_);
+}
+
+void hton_max_sector_update_response(max_sector_update_response *elem) {
+    hton_base(&elem->base);
+    hton_max_sector_update_request(&elem->request);
+}
+
+void hton_maindB_update_request(maindB_update_request *elem) {
+    hton_base(&elem->base);
+    htoni_wrapper((int32_t*)&elem->maindB_);
+}
+
+void hton_maindB_update_response(maindB_update_response *elem) {
+    hton_base(&elem->base);
+    hton_maindB_update_request(&elem->request);
+}
+
+void hton_sidedB_update_request(sidedB_update_request *elem) {
+    hton_base(&elem->base);
+    htoni_wrapper((int32_t*)&elem->sidedB_);
+}
+
+void hton_sidedB_update_response(sidedB_update_response *elem) {
+    hton_base(&elem->base);
+    hton_sidedB_update_request(&elem->request);
+}
+
+// -------------------------------------------------------------
+
 void hton_gaussian_random_update_request(gaussian_random_update_request *elem) {
     hton_base(&elem->base);
     htoni_wrapper((int32_t*)&elem->gaussian_random_);
@@ -220,6 +264,49 @@ void ntoh_txpower_update_response(txpower_update_response *elem) {
     ntoh_base(&elem->base);
     ntoh_txpower_update_request(&elem->request);
 }
+
+//------------------------------------------
+void ntoh_sector_update_request(sector_update_request *elem) {
+    ntoh_base(&elem->base);
+    ntohi_wrapper((int32_t*)&elem->sector_);
+}
+
+void ntoh_sector_update_response(sector_update_response *elem) {
+    ntoh_base(&elem->base);
+    ntoh_sector_update_request(&elem->request);
+}
+
+void ntoh_max_sector_update_request(max_sector_update_request *elem) {
+    ntoh_base(&elem->base);
+    ntohi_wrapper((int32_t*)&elem->max_sector_);
+}
+
+void ntoh_max_sector_update_response(max_sector_update_response *elem) {
+    ntoh_base(&elem->base);
+    ntoh_max_sector_update_request(&elem->request);
+}
+
+void ntoh_maindB_update_request(maindB_update_request *elem) {
+    ntoh_base(&elem->base);
+    ntohi_wrapper((int32_t*)&elem->maindB_);
+}
+
+void ntoh_maindB_update_response(maindB_update_response *elem) {
+    ntoh_base(&elem->base);
+    ntoh_maindB_update_request(&elem->request);
+}
+
+void ntoh_sidedB_update_request(sidedB_update_request *elem) {
+    ntoh_base(&elem->base);
+    ntohi_wrapper((int32_t*)&elem->sidedB_);
+}
+
+void ntoh_sidedB_update_response(sidedB_update_response *elem) {
+    ntoh_base(&elem->base);
+    ntoh_sidedB_update_request(&elem->request);
+}
+
+//---------------------------------------------
 
 void ntoh_gaussian_random_update_request(gaussian_random_update_request *elem) {
     ntoh_base(&elem->base);

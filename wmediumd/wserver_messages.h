@@ -138,9 +138,21 @@ typedef struct __packed {
 //---------
 typedef struct __packed {
     wserver_msg base;
+    u8 sta_addr[ETH_ALEN];
+    i32 sector_;
+} sector_update_request;
+
+typedef struct __packed {
+    wserver_msg base;
     sector_update_request request;
     u8 update_result;
 } sector_update_response;
+
+typedef struct __packed {
+    wserver_msg base;
+    u8 sta_addr[ETH_ALEN];
+    i32 max_sector_;
+} max_sector_update_request;
 
 typedef struct __packed {
     wserver_msg base;
@@ -150,9 +162,21 @@ typedef struct __packed {
 
 typedef struct __packed {
     wserver_msg base;
+    u8 sta_addr[ETH_ALEN];
+    i32 maindB_;
+} maindB_update_request;
+
+typedef struct __packed {
+    wserver_msg base;
     maindB_update_request request;
     u8 update_result;
 } maindB_update_response;
+
+typedef struct __packed {
+    wserver_msg base;
+    u8 sta_addr[ETH_ALEN];
+    i32 sidedB_;
+} sidedB_update_request;
 
 typedef struct __packed {
     wserver_msg base;

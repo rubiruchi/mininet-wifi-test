@@ -75,6 +75,25 @@ void hton_txpower_update_request(txpower_update_request *elem);
 
 void hton_txpower_update_response(txpower_update_response *elem);
 
+//--------------------------------
+void hton_sector_update_request(sector_update_request *elem);
+
+void hton_sector_update_response(sector_update_response *elem);
+
+void hton_max_sector_update_request(max_sector_update_request *elem);
+
+void hton_max_sector_update_response(max_sector_update_response *elem);
+
+void hton_maindB_update_request(maindB_update_request *elem);
+
+void hton_maindB_update_response(maindB_update_response *elem);
+
+void hton_sidedB_update_request(sidedB_update_request *elem);
+
+void hton_sidedB_update_response(sidedB_update_response *elem);
+
+//--------------------------------
+
 void hton_gaussian_random_update_request(gaussian_random_update_request *elem);
 
 void hton_gaussian_random_update_response(gaussian_random_update_response *elem);
@@ -116,7 +135,24 @@ void ntoh_position_update_response(position_update_response *elem);
 void ntoh_txpower_update_request(txpower_update_request *elem);
 
 void ntoh_txpower_update_response(txpower_update_response *elem);
+//---------------------------------------------------
+void ntoh_sector_update_request(sector_update_request *elem);
 
+void ntoh_sector_update_response(sector_update_response *elem);
+
+void ntoh_max_sector_update_request(max_sector_update_request *elem);
+
+void ntoh_max_sector_update_response(max_sector_update_response *elem);
+
+void ntoh_maindB_update_request(maindB_update_request *elem);
+
+void ntoh_maindB_update_response(maindB_update_response *elem);
+
+void ntoh_sidedB_update_request(sidedB_update_request *elem);
+
+void ntoh_sidedB_update_response(sidedB_update_response *elem);
+
+//---------------------------------------------------
 void ntoh_gaussian_random_update_request(gaussian_random_update_request *elem);
 
 void ntoh_gaussian_random_update_response(gaussian_random_update_response *elem);

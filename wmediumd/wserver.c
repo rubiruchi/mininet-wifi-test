@@ -347,6 +347,194 @@ int handle_gain_update_request(struct request_ctx *ctx, const gain_update_reques
     return ret;
 }
 
+//-------------------------------------------------------------------------
+
+int handle_sector_update_request(struct request_ctx *ctx, const sector_update_request *request) {
+    sector_update_response response;
+    response.request = *request;
+
+    if (ctx->ctx->error_prob_matrix == NULL) {
+    	struct station *sender = NULL;
+    	struct station *station;
+    	int start, end, path_loss, gains, txpower, sector;
+
+        pthread_rwlock_wrlock(&snr_lock);
+
+        list_for_each_entry(station, &ctx->ctx->stations, list) {
+			if (memcmp(&request->sta_addr, station->addr, ETH_ALEN) == 0) {
+				sender = station;
+				sender->sector = request->sector_;
+			}
+        }
+
+		w_logf(ctx->ctx, LOG_NOTICE, LOG_PREFIX "Performing Sector update: for=" MAC_FMT ", sector=%d\n",
+			   MAC_ARGS(request->sta_addr), request->sector_);
+
+		for (start = 0; start < ctx->ctx->num_stas; start++) {
+			for (end = 0; end < ctx->ctx->num_stas; end++) {
+				if (start == end)
+					continue;
+				sector = ctx->ctx->sta_array[end]->sector;
+				if (ctx->ctx->sta_array[start]->isap == 1)
+					sector = ctx->ctx->sta_array[start]->sector;
+
+				path_loss = ctx->ctx->calc_path_loss(ctx->ctx->path_loss_param,
+						ctx->ctx->sta_array[end], ctx->ctx->sta_array[start]);
+				gains = (txpower + ctx->ctx->sta_array[start]->gain + ctx->ctx->sta_array[end]->gain);
+				ctx->ctx->snr_matrix[ctx->ctx->num_stas * start + end] = gains - path_loss - ctx->ctx->noise_threshold;
+			}
+		}
+		response.update_result = WUPDATE_SUCCESS;
+
+        pthread_rwlock_unlock(&snr_lock);
+    } else {
+        response.update_result = WUPDATE_WRONG_MODE;
+    }
+    int ret = wserver_send_msg(ctx->sock_fd, &response, sector_update_response);
+    return ret;
+}
+
+
+int handle_max_sector_update_request(struct request_ctx *ctx, const max_sector_update_request *request) {
+    max_sector_update_response response;
+    response.request = *request;
+
+    if (ctx->ctx->error_prob_matrix == NULL) {
+    	struct station *sender = NULL;
+    	struct station *station;
+    	int start, end, path_loss, gains, txpower, max_sector;
+
+        pthread_rwlock_wrlock(&snr_lock);
+
+        list_for_each_entry(station, &ctx->ctx->stations, list) {
+			if (memcmp(&request->sta_addr, station->addr, ETH_ALEN) == 0) {
+				sender = station;
+				sender->max_sector = request->max_sector_;
+			}
+        }
+
+		w_logf(ctx->ctx, LOG_NOTICE, LOG_PREFIX "Performing Max Sector update: for=" MAC_FMT ", max_sector=%d\n",
+			   MAC_ARGS(request->sta_addr), request->max_sector_);
+
+		for (start = 0; start < ctx->ctx->num_stas; start++) {
+			for (end = 0; end < ctx->ctx->num_stas; end++) {
+				if (start == end)
+					continue;
+				max_sector = ctx->ctx->sta_array[end]->max_sector;
+				if (ctx->ctx->sta_array[start]->isap == 1)
+					max_sector = ctx->ctx->sta_array[start]->max_sector;
+
+				path_loss = ctx->ctx->calc_path_loss(ctx->ctx->path_loss_param,
+						ctx->ctx->sta_array[end], ctx->ctx->sta_array[start]);
+				gains = (txpower + ctx->ctx->sta_array[start]->gain + ctx->ctx->sta_array[end]->gain);
+				ctx->ctx->snr_matrix[ctx->ctx->num_stas * start + end] = gains - path_loss - ctx->ctx->noise_threshold;
+			}
+		}
+		response.update_result = WUPDATE_SUCCESS;
+
+        pthread_rwlock_unlock(&snr_lock);
+    } else {
+        response.update_result = WUPDATE_WRONG_MODE;
+    }
+    int ret = wserver_send_msg(ctx->sock_fd, &response, max_sector_update_response);
+    return ret;
+}
+
+
+int handle_maindB_update_request(struct request_ctx *ctx, const maindB_update_request *request) {
+    maindB_update_response response;
+    response.request = *request;
+
+    if (ctx->ctx->error_prob_matrix == NULL) {
+    	struct station *sender = NULL;
+    	struct station *station;
+    	int start, end, path_loss, gains, txpower, maindB;
+
+        pthread_rwlock_wrlock(&snr_lock);
+
+        list_for_each_entry(station, &ctx->ctx->stations, list) {
+			if (memcmp(&request->sta_addr, station->addr, ETH_ALEN) == 0) {
+				sender = station;
+				sender->maindB = request->maindB_;
+			}
+        }
+
+		w_logf(ctx->ctx, LOG_NOTICE, LOG_PREFIX "Performing maindB update: for=" MAC_FMT ", maindB=%d\n",
+			   MAC_ARGS(request->sta_addr), request->maindB_);
+
+		for (start = 0; start < ctx->ctx->num_stas; start++) {
+			for (end = 0; end < ctx->ctx->num_stas; end++) {
+				if (start == end)
+					continue;
+				maindB = ctx->ctx->sta_array[end]->maindB;
+				if (ctx->ctx->sta_array[start]->isap == 1)
+					maindB = ctx->ctx->sta_array[start]->maindB;
+
+				path_loss = ctx->ctx->calc_path_loss(ctx->ctx->path_loss_param,
+						ctx->ctx->sta_array[end], ctx->ctx->sta_array[start]);
+				gains = (txpower + ctx->ctx->sta_array[start]->gain + ctx->ctx->sta_array[end]->gain);
+				ctx->ctx->snr_matrix[ctx->ctx->num_stas * start + end] = gains - path_loss - ctx->ctx->noise_threshold;
+			}
+		}
+		response.update_result = WUPDATE_SUCCESS;
+
+        pthread_rwlock_unlock(&snr_lock);
+    } else {
+        response.update_result = WUPDATE_WRONG_MODE;
+    }
+    int ret = wserver_send_msg(ctx->sock_fd, &response, maindB_update_response);
+    return ret;
+}
+
+
+int handle_sidedB_update_request(struct request_ctx *ctx, const sidedB_update_request *request) {
+    sidedB_update_response response;
+    response.request = *request;
+
+    if (ctx->ctx->error_prob_matrix == NULL) {
+    	struct station *sender = NULL;
+    	struct station *station;
+    	int start, end, path_loss, gains, txpower, sidedB;
+
+        pthread_rwlock_wrlock(&snr_lock);
+
+        list_for_each_entry(station, &ctx->ctx->stations, list) {
+			if (memcmp(&request->sta_addr, station->addr, ETH_ALEN) == 0) {
+				sender = station;
+				sender->sidedB = request->sidedB_;
+			}
+        }
+
+		w_logf(ctx->ctx, LOG_NOTICE, LOG_PREFIX "Performing sidedB update: for=" MAC_FMT ", sidedB=%d\n",
+			   MAC_ARGS(request->sta_addr), request->sidedB_);
+
+		for (start = 0; start < ctx->ctx->num_stas; start++) {
+			for (end = 0; end < ctx->ctx->num_stas; end++) {
+				if (start == end)
+					continue;
+				sidedB = ctx->ctx->sta_array[end]->sidedB;
+				if (ctx->ctx->sta_array[start]->isap == 1)
+					sidedB = ctx->ctx->sta_array[start]->sidedB;
+
+				path_loss = ctx->ctx->calc_path_loss(ctx->ctx->path_loss_param,
+						ctx->ctx->sta_array[end], ctx->ctx->sta_array[start]);
+				gains = (txpower + ctx->ctx->sta_array[start]->gain + ctx->ctx->sta_array[end]->gain);
+				ctx->ctx->snr_matrix[ctx->ctx->num_stas * start + end] = gains - path_loss - ctx->ctx->noise_threshold;
+			}
+		}
+		response.update_result = WUPDATE_SUCCESS;
+
+        pthread_rwlock_unlock(&snr_lock);
+    } else {
+        response.update_result = WUPDATE_WRONG_MODE;
+    }
+    int ret = wserver_send_msg(ctx->sock_fd, &response, sidedB_update_response);
+    return ret;
+}
+
+// -----------------------------------------------------------------------------------
+
+
 
 int handle_errprob_update_request(struct request_ctx *ctx, const errprob_update_request *request) {
     errprob_update_response response;
@@ -624,7 +812,36 @@ int receive_handle_request(struct request_ctx *ctx) {
 			return parse_recv_msg_rest_error(ctx->ctx, ret);
 		} else {
 			return handle_gaussian_random_update_request(ctx, &request);
+		} // --------------------------------------
+    } else if (recv_type == WSERVER_SECTOR_RANDOM_UPDATE_REQUEST_TYPE) {
+	    sector_update_request request;
+	    if ((ret = wserver_recv_msg(ctx->sock_fd, &request, sector_update_request))) {
+			return parse_recv_msg_rest_error(ctx->ctx, ret);
+		} else {
+			return handle_sector_update_request(ctx, &request);
 		}
+    } else if (recv_type == WSERVER_MAXSECTOR_RANDOM_UPDATE_REQUEST_TYPE) {
+	    max_sector_update_request request;
+	    if ((ret = wserver_recv_msg(ctx->sock_fd, &request, max_sector_update_request))) {
+			return parse_recv_msg_rest_error(ctx->ctx, ret);
+		} else {
+			return handle_max_sector_update_request(ctx, &request);
+	        }
+    } else if (recv_type == WSERVER_MAINDB_RANDOM_UPDATE_REQUEST_TYPE) {
+	    maindB_update_request request;
+	    if ((ret = wserver_recv_msg(ctx->sock_fd, &request, maindB_update_request))) {
+			return parse_recv_msg_rest_error(ctx->ctx, ret);
+		} else {
+			return handle_maindB_update_request(ctx, &request);
+		}
+    } else if (recv_type == WSERVER_SIDEDB_RANDOM_UPDATE_REQUEST_TYPE) {
+	    sidedB_update_request request;
+	    if ((ret = wserver_recv_msg(ctx->sock_fd, &request, sidedB_update_request))) {
+			return parse_recv_msg_rest_error(ctx->ctx, ret);
+		} else {
+			return handle_sidedB_update_request(ctx, &request);
+		}
+    //----------------------------------------
     } else {
         return -1;
     }

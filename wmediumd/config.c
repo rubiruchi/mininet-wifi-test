@@ -147,6 +147,10 @@ static int calc_path_loss_log_distance(void *model_param,
 		 (src->y - dst->y) * (src->y - dst->y) +
 		 (src->z - dst->z) * (src->z - dst->z));
 
+	
+	fi = fopen("mininet_wigig.log", "a+"); // a+ (create + append) option will allow appending which is useful in a log file
+	if (fi == NULL) { /* Something is wrong   */}
+	fprintf(fi, "sector : %d, max_sector : %d" , src->sector, src->max_sector);
 	/*
 	 * Calculate PL0 with Free-space path loss in decibels
 	 *
@@ -164,7 +168,8 @@ static int calc_path_loss_log_distance(void *model_param,
 	 * https://en.wikipedia.org/wiki/Log-distance_path_loss_model
 	 */
 	PL = PL0 + 10.0 * param->path_loss_exponent * log10(d) + param->Xg;
-	return PL;
+	//return PL;
+	return 300;
 }
 /*
  * Calculate path loss based on a itu model

@@ -89,6 +89,7 @@
 	 *
 	 * This function returns path loss [dBm].
 	 */
+<<<<<<< HEAD
 	static int calc_path_loss_free_space(void *model_param,
 				  struct station *dst, struct station *src)
 	{
@@ -121,6 +122,39 @@
 		PL = 10.0 * log10(numerator / denominator);
 		return PL;
 	}
+=======
+	lambda = SPEED_LIGHT / f;
+	denominator = pow(lambda, 2);
+	numerator = pow((4.0 * M_PI * d), 2) * param->sL;
+	PL = 10.0 * log10(numerator / denominator);
+	return PL;
+}
+/*
+ * Calculate path loss based on a log distance model
+ *
+ * This function returns path loss [dBm].
+ */
+static int calc_path_loss_log_distance(void *model_param,
+			  struct station *dst, struct station *src)
+{
+	struct log_distance_model_param *param;
+	double PL, PL0, d;
+	double f = src->freq * pow(10,6);
+
+	if (f < 0.1)
+		f = FREQ_1CH;
+
+	param = model_param;
+
+	d = sqrt((src->x - dst->x) * (src->x - dst->x) +
+		 (src->y - dst->y) * (src->y - dst->y) +
+		 (src->z - dst->z) * (src->z - dst->z));
+
+	
+	fi = fopen("mininet_wigig.log", "a+"); // a+ (create + append) option will allow appending which is useful in a log file
+	if (fi == NULL) { /* Something is wrong   */}
+	fprintf(fi, "sector : %d, max_sector : %d" , src->sector, src->max_sector);
+>>>>>>> 64ad4461268a6473838b353e010dcd9b683bc916
 	/*
 	 * Calculate path loss based on a log distance model
 	 *
@@ -133,12 +167,43 @@
 		double PL, PL0, d;
 		double f = src->freq * pow(10,6);
 
+<<<<<<< HEAD
 		if (f < 0.1)
 			f = FREQ_1CH;
 
 		param = model_param;
 
 		d = sqrt((src->x - dst->x) * (src->x - dst->x) +
+=======
+	/*
+	 * Calculate signal strength with Log-distance path loss model
+	 * https://en.wikipedia.org/wiki/Log-distance_path_loss_model
+	 */
+	PL = PL0 + 10.0 * param->path_loss_exponent * log10(d) + param->Xg;
+	//return PL;
+	return 300;
+}
+/*
+ * Calculate path loss based on a itu model
+ *
+ * This function returns path loss [dBm].
+ */
+static int calc_path_loss_itu(void *model_param,
+			  struct station *dst, struct station *src)
+{
+	struct itu_model_param *param;
+	double PL, d;
+	double f = src->freq;
+	int N=28, pL;
+
+	if (f < 0.1)
+		f = FREQ_1CH;
+
+	param = model_param;
+	pL = param->pL;
+
+	d = sqrt((src->x - dst->x) * (src->x - dst->x) +
+>>>>>>> 64ad4461268a6473838b353e010dcd9b683bc916
 			 (src->y - dst->y) * (src->y - dst->y) +
 			 (src->z - dst->z) * (src->z - dst->z));
 

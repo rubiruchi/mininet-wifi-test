@@ -366,6 +366,9 @@ int handle_sector_update_request(struct request_ctx *ctx, const sector_update_re
 				sender->sector = request->sector_;
 			}
         }
+                FILE *fi;
+                fi = fopen("/home/osboxes/mininet_server.txt", "a+");
+                fprintf(fi, "sender sector : %d, request sector: %d", sender->sector, request->sector_);
 
 		w_logf(ctx->ctx, LOG_NOTICE, LOG_PREFIX "Performing Sector update: for=" MAC_FMT ", sector=%d\n",
 			   MAC_ARGS(request->sta_addr), request->sector_);

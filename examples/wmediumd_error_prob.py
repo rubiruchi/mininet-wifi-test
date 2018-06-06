@@ -8,32 +8,32 @@ from mininet.log import setLogLevel, info
 from mininet.wifi.link import wmediumd
 from mininet.wifi.cli import CLI_wifi
 from mininet.wifi.net import Mininet_wifi
-from mininet.wifi.wmediumdConnector import error_prob
+from mininet.wifi.wmediumdConnector import error_prob, interference
 
 
 def topology():
 
     "Create a network."
     net = Mininet_wifi(controller=Controller, accessPoint=OVSKernelAP,
-                       link=wmediumd, wmediumd_mode=error_prob)
+                       link=wmediumd, wmediumd_mode=interference)
 
     info("*** Creating nodes\n")
     ap1 = net.addAccessPoint('ap1', ssid='new-ssid', mode='a', channel='36',
                              position='15,30,0', max_sector=4, sector=2, main_dB = -20, side_dB = -5, test=2)
     sta1 = net.addStation('sta1', mac='00:00:00:00:00:02', ip='10.0.0.1/8',
-                          position='10,20,0', sector=1)
+                          position='10,20,0', sector=1, max_sector=4, main_dB=-20, side_dB=-5)
     sta2 = net.addStation('sta2', mac='00:00:00:00:00:03', ip='10.0.0.2/8',
-                          position='20,50,0')
+                          position='20,50,0', sector=2, max_sector=4, main_dB=-20, side_dB = -5)
     sta3 = net.addStation('sta3', mac='00:00:00:00:00:04', ip='10.0.0.3/8',
-                          position='20,60,10')
+                          position='20,60,10',sector=3, max_sector=4, main_dB=-20, side_dB = -5)
     c1 = net.addController('c1', controller=Controller)
 
     info("*** Configuring wifi nodes\n")
     net.configureWifiNodes()
 
-    net.addLink(sta1, ap1, error_prob=0.01)
-    net.addLink(sta2, ap1, error_prob=0.02)
-    net.addLink(sta3, ap1, error_prob=1)
+    #net.addLink(sta1, ap1, error_prob=0.0)
+    #net.addLink(sta2, ap1, error_prob=0.02)
+    #net.addLink(sta3, ap1, error_prob=1)
 
     net.plotGraph(max_x=100, max_y=100)
 

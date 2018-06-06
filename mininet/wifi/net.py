@@ -63,7 +63,7 @@ class Mininet_wifi(Mininet):
                  configure4addr=False, defaultGraph=False,
                  noise_threshold=-91, cca_threshold=-90,
                  rec_rssi=False, disable_tcp_checksum=False, ifb=False,
-                 max_sector=4, sector=0, side_dB = -5, main_dB = -20):
+                 max_sector=4, sector=0, sidedB = -5, maindB = -20):
         """Create Mininet object.
            topo: Topo (topology) object or None
            switch: default Switch class
@@ -155,10 +155,10 @@ class Mininet_wifi(Mininet):
         self.nroads = 0
         self.conn = {}
         self.wlinks = []
-	self.max_sector = 0
-        self.sector = 0
-        self.side_dB = 0
-        self.main_dB = 0
+	self.max_sector = max_sector
+        self.sector = sector
+        self.sidedB = sidedB
+        self.maindB = maindB
         Mininet_wifi.init()  # Initialize Mininet if necessary
 
         if not allAutoAssociation:
@@ -231,8 +231,8 @@ class Mininet_wifi(Mininet):
                     'mode': self.mode,
                     'max_sector': self.max_sector,
                     'sector': self.sector,
-                    'main_dB': self.main_dB,
-                    'side_dB': self.side_dB
+                    'maindB': self.maindB,
+                    'sidedB': self.sidedB
                    }
         defaults.update(params)
 
@@ -330,8 +330,8 @@ class Mininet_wifi(Mininet):
                     'mode': self.mode,
                     'max_sector': self.max_sector,
                     'sector': self.sector,
-                    'main_dB': self.main_dB,
-                    'side_dB': self.side_dB
+                    'maindB': self.maindB,
+                    'sidedB': self.sidedB
                    }
 
         defaults.update(params)
@@ -1353,8 +1353,8 @@ class Mininet_wifi(Mininet):
         node.params['mac'] = []
         node.params['sector'] = []
         node.params['max_sector'] = []
-        node.params['main_dB'] = []
-        node.params['side_dB'] = []
+        node.params['maindB'] = []
+        node.params['sidedB'] = []
         node.phyID = []
         node.autoTxPower = False
 
@@ -1405,6 +1405,17 @@ class Mininet_wifi(Mininet):
             if 'min_speed' in params:
                 node.min_speed = int(params['min_speed'])
 
+
+	# sector
+	if 'sector' in params:
+	    node.sector = int(params['sector'])
+	if 'max_sector' in params:
+	    node.max_sector = int(params['max_sector'])
+	# dB
+	if 'mainidB' in params:
+	    node.maindB = int(params['maindB'])
+	if 'sidedB' in params:
+	    node.sidedB = int(params['sidedB'])
         # speed
         if 'speed' in params:
             node.speed = int(params['speed'])

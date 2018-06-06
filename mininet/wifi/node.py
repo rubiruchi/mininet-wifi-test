@@ -165,7 +165,16 @@ class Node_wifi(Node):
 
         if 'channel' in params:
             self.setChannel(params['channel'], intf=self.params['wlan'][wlan])
-
+#####
+	if 'sector' in params:
+	    self.setSector(params['sector'], inf=self.params['wlan'][wlan])
+	if 'max_sector' in params:
+	    self.setMaxSector(params['max_sector'], inf=self.params['wlan'][wlan])
+	if 'maindB' in params:
+	    self.setMaindB(params['maindB'], inf=self.params['wlan'][wlan])
+	if 'sidedB' in params:
+	    self.setSidedB(params['sidedB'], inf=self.params['wlan'][wlan])
+#####
         if 'mode' in params and (params['mode'] == 'a'
                                  or params['mode'] == 'ac'):
             self.pexec('iw reg set US')

@@ -21,16 +21,16 @@ def topology():
     ap1 = net.addAccessPoint('ap1', ssid='new-ssid', mode='a', channel='36',
                              position='15,30,0')
     net.addStation('sta1', mac='00:00:00:00:00:02', ip='10.0.0.1/8',
-                   position='10,20,0')
+                   position='10,20,0', sector=1, max_sector=4, main_dB=-20, side_dB=-5)
     net.addStation('sta2', mac='00:00:00:00:00:03', ip='10.0.0.2/8',
-                   position='20,50,0')
+                   position='20,50,0', sector=2, max_sector=4, main_dB=-20, side_dB=-5)
     net.addStation('sta3', mac='00:00:00:00:00:04', ip='10.0.0.3/8',
-                   position='20,60,10')
+                   position='20,60,10',sector=3, max_sector=4, main_dB=-20, side_dB =-5)
     c1 = net.addController('c1', controller=Controller)
 
     info("*** Configuring Propagation Model\n")
-    net.propagationModel(model="logDistance", exp=4)
-
+    #net.propagationModel(model="logDistance", exp=4)
+    net.propagationModel(model="free_space")
     info("*** Configuring wifi nodes\n")
     net.configureWifiNodes()
 
